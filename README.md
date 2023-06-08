@@ -7,7 +7,7 @@ Install Terraform: Download and install Terraform from the official website (htt
 Preliminary AWS Steps
 Make keypair
 get access key and secret key
-choose desired AMI ID and instance_type
+choose desired AMI ID  "ami-03f65b8614a860c29" and instance_type
 select correct region in tf file
 
 
