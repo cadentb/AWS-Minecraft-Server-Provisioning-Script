@@ -36,7 +36,7 @@ resource "aws_security_group" "minecraft_sg" {
 resource "aws_instance" "minecraft_server" {
   ami           = "ami-0c94855ba95c71c99"   # Replace with your desired AMI ID
   instance_type = "t2.micro"   # Replace with your desired instance type
-  key_name      = "your-key-pair"   # Replace with your SSH key pair name
+  key_name      = "AWSMinecraftServerKeyPair"   # Replace with your SSH key pair name
 
   security_group_ids = [aws_security_group.minecraft_sg.id]
 
