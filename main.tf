@@ -2,7 +2,7 @@
 provider "aws" {
   access_key = "<AWS_ACCESS_KEY>"
   secret_key = "<AWS_SECRET_KEY>"
-  region     = "us-east-1"  # Change to your desired region
+  region     = "us-west-2"  # Change to your desired region
 }
 
 # Create a security group allowing SSH and Minecraft traffic
