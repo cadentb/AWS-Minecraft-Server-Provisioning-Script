@@ -9,6 +9,8 @@ Make keypair
 get access key and secret key
 choose desired AMI ID  "ami-03f65b8614a860c29" and instance_type
 select correct region in tf file
+rename line 58 to "minecraft_server_behavior"
+change security_group_ids to security_groups
 
 
 Initialize the Terraform project: Open a terminal or command prompt, navigate to the directory where you created the main.tf file, and run the following command to initialize the Terraform project:
