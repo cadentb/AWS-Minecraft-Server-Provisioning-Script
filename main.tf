@@ -1,7 +1,8 @@
 # Specify your AWS provider credentials
 provider "aws" {
-  access_key = "<AWS_ACCESS_KEY>"
-  secret_key = "<AWS_SECRET_KEY>"
+  access_key = "ASIATL7JQS6A4IUFL3HR"
+  secret_key = "RveRkR9Soo+MHq+mv7ZYowH1tNOhy/9VPFZbH8FO"
+  token = "FwoGZXIvYXdzEEsaDMfkoJ1swG/lyOrmlCLJAcnp1FLlRNxONzH/QlRZXzK4T8MrV4MtT27mxczXwSuO3sPwEIqYBRngsLM9CVj90p/ySokJvRIqJ+ui5tSfYdryTo4fpEleIJuDhFPeaky7z2onB14kGWseFyEf9STqhATO3UT9T/dVG5L9uTkXoA0L0VviwOtJs3WMpXzPi9mK0tyuDiwCVxHgwxTZYJIF/YyuRaaLeswCtHNphWTvRE39FxL7T4axdVvAzBbqLSQgfrEycfbC4M0bBS14/JsHqsxXNS4OBEe/OyiskIqkBjItbdu4kph5U9V+cvtm4P2clbSwH7giLoRqY/U4kxUBe3MyJMUhVc1D0kAF/AdP"
   region     = "us-west-2"  # Change to your desired region
 }
 
@@ -34,17 +35,17 @@ resource "aws_security_group" "minecraft_sg" {
 
 # Provision an EC2 instance for the Minecraft server
 resource "aws_instance" "minecraft_server" {
-  ami           = "ami-0c94855ba95c71c99"   # Replace with your desired AMI ID
-  instance_type = "t2.micro"   # Replace with your desired instance type
-  key_name      = "AWSMinecraftServerKeyPair"   # Replace with your SSH key pair name
+  ami           = "ami-03f65b8614a860c29"   # Replace with your desired AMI ID
+  instance_type = "t2.medium"   # Replace with your desired instance type
+  key_name      = "minecraftkey"   # Replace with your SSH key pair name
 
-  security_group_ids = [aws_security_group.minecraft_sg.id]
+  security_groups = [aws_security_group.minecraft_sg.name]
 
   user_data = <<-EOF
               #!/bin/bash
               sudo apt-get update
-              sudo apt-get install -y default-jdk
-              wget -O minecraft_server.jar https://launcher.mojang.com/v1/objects/2f8d3f7c61fbc00c87f600704be6a19b88b6a0fa/server.jar
+              sudo apt-get install -y openjdk-17-jdk
+              wget -O minecraft_server.jar https://piston-data.mojang.com/v1/objects/15c777e2cfe0556eef19aab534b186c0c6f277e1/server.jar
               echo "eula=true" > eula.txt
               nohup java -Xmx1024M -Xms1024M -jar minecraft_server.jar &
               EOF
@@ -52,11 +53,6 @@ resource "aws_instance" "minecraft_server" {
   tags = {
     Name = "minecraft-server"
   }
-}
-
-# Configure instance stop and start behavior
-resource "aws_instance" "minecraft_server" {
-  instance_id = aws_instance.minecraft_server.id
 
   metadata_options {
     http_endpoint               = "enabled"
