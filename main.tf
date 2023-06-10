@@ -41,14 +41,37 @@ resource "aws_instance" "minecraft_server" {
 
   security_groups = [aws_security_group.minecraft_sg.name]
 
-  user_data = <<-EOF
-              #!/bin/bash
-              sudo apt-get update
-              sudo apt-get install -y openjdk-17-jdk
-              wget -O minecraft_server.jar https://piston-data.mojang.com/v1/objects/15c777e2cfe0556eef19aab534b186c0c6f277e1/server.jar
-              echo "eula=true" > eula.txt
-              nohup java -Xmx1024M -Xms1024M -jar minecraft_server.jar &
-              EOF
+user_data = <<-EOF
+            #!/bin/bash
+            sudo apt-get update
+            sudo apt-get install -y openjdk-17-jdk
+            wget -O minecraft_server.jar https://piston-data.mojang.com/v1/objects/15c777e2cfe0556eef19aab534b186c0c6f277e1/server.jar
+            echo "eula=true" > eula.txt
+            
+            # Create a systemd service for Minecraft server
+            cat > minecraft.service << EOL
+            [Unit]
+            Description=Minecraft Server
+            After=network.target
+
+            [Service]
+            WorkingDirectory=/home/ubuntu
+            User=ubuntu
+            ExecStart=/usr/bin/java -Xmx1024M -Xms1024M -jar minecraft_server.jar
+            ExecStop=/usr/bin/screen -p 0 -S minecraft-server -X eval 'stuff "say Server shutting down in 10 seconds..."\015'
+            ExecStop=/bin/sleep 10
+            ExecStop=/usr/bin/screen -p 0 -S minecraft-server -X eval 'stuff "stop"\015'
+            Restart=on-failure
+
+            [Install]
+            WantedBy=multi-user.target
+            EOL
+            
+            sudo mv minecraft.service /etc/systemd/system/
+            sudo systemctl enable minecraft.service
+            sudo systemctl start minecraft.service
+            EOF
+
 
   tags = {
     Name = "minecraft-server"
