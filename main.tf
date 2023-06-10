@@ -1,8 +1,8 @@
 # Specify your AWS provider credentials
 provider "aws" {
-  access_key = "ASIATL7JQS6A4IUFL3HR"
-  secret_key = "RveRkR9Soo+MHq+mv7ZYowH1tNOhy/9VPFZbH8FO"
-  token = "FwoGZXIvYXdzEEsaDMfkoJ1swG/lyOrmlCLJAcnp1FLlRNxONzH/QlRZXzK4T8MrV4MtT27mxczXwSuO3sPwEIqYBRngsLM9CVj90p/ySokJvRIqJ+ui5tSfYdryTo4fpEleIJuDhFPeaky7z2onB14kGWseFyEf9STqhATO3UT9T/dVG5L9uTkXoA0L0VviwOtJs3WMpXzPi9mK0tyuDiwCVxHgwxTZYJIF/YyuRaaLeswCtHNphWTvRE39FxL7T4axdVvAzBbqLSQgfrEycfbC4M0bBS14/JsHqsxXNS4OBEe/OyiskIqkBjItbdu4kph5U9V+cvtm4P2clbSwH7giLoRqY/U4kxUBe3MyJMUhVc1D0kAF/AdP"
+  access_key = "ASIATL7JQS6AWAWMXDZT"
+  secret_key = "YLzqKb7PMNnbQ5xlEPjY+CfJ5uhn0X75Enct0/yo"
+  token = "FwoGZXIvYXdzEHUaDD+v1HvzmsrJjzS3fiLJAbN6Qu4c2I2pKX7UhLOTFWHk18CFTmzUAp2RJy6HzqQSa77iWExA/R8B7F0YyJ2zBLTpxmVLSdbd/C4f+qGz1rv8EZT58ZGUNtMzHu7CWQlQY1FR1r12eqC7ASXoA9Gl1yAV6xinSTu5wwe2ohmNS5j4gQjIrji1Fm6HpLZHzv0dF/V6bF7yTo0RMQPUcjoBelYkqO8fT3qxBM0jI45MeGHOugPzL44b0IoQYQNeZpt0L3Q7iiIEKb0vytTFhFV7Gl1XPhnGiaoc0Sj4mpOkBjItyPAZ0LogbjTWZG4i5Muxv9JEwSPkLpj/W0fJqjpvWVdq10cEq8OJZBS+bVof"
   region     = "us-west-2"  # Change to your desired region
 }
 
@@ -45,8 +45,8 @@ user_data = <<-EOF
             #!/bin/bash
             sudo apt-get update
             sudo apt-get install -y openjdk-17-jdk
-            wget -O minecraft_server.jar https://piston-data.mojang.com/v1/objects/15c777e2cfe0556eef19aab534b186c0c6f277e1/server.jar
-            echo "eula=true" > eula.txt
+            wget -O /home/ubuntu/minecraft_server.jar https://piston-data.mojang.com/v1/objects/15c777e2cfe0556eef19aab534b186c0c6f277e1/server.jar
+            echo "eula=true" > /home/ubuntu/eula.txt
             
             # Create a systemd service for Minecraft server
             cat > minecraft.service << EOL
@@ -57,10 +57,8 @@ user_data = <<-EOF
             [Service]
             WorkingDirectory=/home/ubuntu
             User=ubuntu
-            ExecStart=/usr/bin/java -Xmx1024M -Xms1024M -jar minecraft_server.jar
-            ExecStop=/usr/bin/screen -p 0 -S minecraft-server -X eval 'stuff "say Server shutting down in 10 seconds..."\015'
-            ExecStop=/bin/sleep 10
-            ExecStop=/usr/bin/screen -p 0 -S minecraft-server -X eval 'stuff "stop"\015'
+            ExecStart=nohup /usr/bin/java -Xmx1024M -Xms1024M -jar minecraft_server.jar
+            ExecStop=/bin/kill -INT $MAINPID
             Restart=on-failure
 
             [Install]
