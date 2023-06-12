@@ -4,7 +4,7 @@
 
 In this tutorial, we will use Terraform to provision an EC2 instance on AWS and deploy a Minecraft server on it. The server will be accessible over the internet, allowing players to connect and play the game.
 
-# Diagram
+#### Diagram
 
 Clone Repository -> Retrieve Credentials -> Create Key Pair -> `terraform init` -> `terraform plan` -> `terraform apply` -> Play Minecraft -> Connect to Server
 
