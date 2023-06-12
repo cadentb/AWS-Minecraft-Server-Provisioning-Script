@@ -1,8 +1,8 @@
 # Specify your AWS provider credentials
 provider "aws" {
-  access_key = "ASIATL7JQS6AWAWMXDZT"
-  secret_key = "YLzqKb7PMNnbQ5xlEPjY+CfJ5uhn0X75Enct0/yo"
-  token = "FwoGZXIvYXdzEHUaDD+v1HvzmsrJjzS3fiLJAbN6Qu4c2I2pKX7UhLOTFWHk18CFTmzUAp2RJy6HzqQSa77iWExA/R8B7F0YyJ2zBLTpxmVLSdbd/C4f+qGz1rv8EZT58ZGUNtMzHu7CWQlQY1FR1r12eqC7ASXoA9Gl1yAV6xinSTu5wwe2ohmNS5j4gQjIrji1Fm6HpLZHzv0dF/V6bF7yTo0RMQPUcjoBelYkqO8fT3qxBM0jI45MeGHOugPzL44b0IoQYQNeZpt0L3Q7iiIEKb0vytTFhFV7Gl1XPhnGiaoc0Sj4mpOkBjItyPAZ0LogbjTWZG4i5Muxv9JEwSPkLpj/W0fJqjpvWVdq10cEq8OJZBS+bVof"
+  access_key = "<AWS_ACCESS_KEY>"
+  secret_key = "<AWS_SECRET_KEY>"
+  token = "<AWS_TOKEN>"
   region     = "us-west-2"  # Change to your desired region
 }
 
@@ -36,8 +36,8 @@ resource "aws_security_group" "minecraft_sg" {
 # Provision an EC2 instance for the Minecraft server
 resource "aws_instance" "minecraft_server" {
   ami           = "ami-03f65b8614a860c29"   # Replace with your desired AMI ID
-  instance_type = "t2.medium"   # Replace with your desired instance type
-  key_name      = "minecraftkey"   # Replace with your SSH key pair name
+  instance_type = "t2.micro"   # Replace with your desired instance type
+  key_name      = "my-key-pair"   # Replace with your SSH key pair name
 
   security_groups = [aws_security_group.minecraft_sg.name]
 
